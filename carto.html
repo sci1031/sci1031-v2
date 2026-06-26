@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Module 6 Cartographie | SCI 1031 Visualisation et analyse de données spatiales sous R</title>
+  <meta name="description" content="Ce cours est une introduction à la visualisation et l’analyse de données spatiales sous R. Il est offert à la TÉLUQ sous le sigle SCI 1031." />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Module 6 Cartographie | SCI 1031 Visualisation et analyse de données spatiales sous R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Ce cours est une introduction à la visualisation et l’analyse de données spatiales sous R. Il est offert à la TÉLUQ sous le sigle SCI 1031." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Module 6 Cartographie | SCI 1031 Visualisation et analyse de données spatiales sous R" />
+  
+  <meta name="twitter:description" content="Ce cours est une introduction à la visualisation et l’analyse de données spatiales sous R. Il est offert à la TÉLUQ sous le sigle SCI 1031." />
+  
+
+<meta name="author" content="" />
+
+
+<meta name="date" content="2026-07-02" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ex_mat.html"/>
+<link rel="next" href="lecon_carto.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.2.3/leaflet.js"></script>
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<link href="libs/multi_point-CSS-0.0.1/multi_point_home-button.css" rel="stylesheet" />
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
+<link href="libs/ligne-CSS-0.0.1/ligne_home-button.css" rel="stylesheet" />
+<link href="libs/polygone-CSS-0.0.1/polygone_home-button.css" rel="stylesheet" />
+<script src="libs/Leaflet.Sync-0.0.5/L.Map.Sync.js"></script>
+<script src="libs/leaflet-providers-3.0.0/leaflet-providers.js"></script>
+<script src="libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script>
+<link href="libs/limites_terrestres-CSS-0.0.1/limites_terrestres_home-button.css" rel="stylesheet" />
+<link href="libs/pistes_cyclables-CSS-0.0.1/pistes_cyclables_home-button.css" rel="stylesheet" />
+<link href="libs/accidents_velo-CSS-0.0.1/accidents_velo_home-button.css" rel="stylesheet" />
+<link href="libs/Types_de_pistes_cyclables-CSS-0.0.1/Types_de_pistes_cyclables_home-button.css" rel="stylesheet" />
+<link href="libs/limites_terrestres_rob-CSS-0.0.1/limites_terrestres_rob_home-button.css" rel="stylesheet" />
+<link href="libs/Mercator_Web-CSS-0.0.1/Mercator_Web_home-button.css" rel="stylesheet" />
+<link href="libs/Mercator-CSS-0.0.1/Mercator_home-button.css" rel="stylesheet" />
+<link href="libs/Robinson-CSS-0.0.1/Robinson_home-button.css" rel="stylesheet" />
+<link href="libs/ecoles_pub-CSS-0.0.1/ecoles_pub_home-button.css" rel="stylesheet" />
+<link href="libs/ecoles_pub_Mtl-CSS-0.0.1/ecoles_pub_Mtl_home-button.css" rel="stylesheet" />
+<link href="libs/Commissions_scolaires-CSS-0.0.1/Commissions_scolaires_home-button.css" rel="stylesheet" />
+<link href="libs/Enseignement-CSS-0.0.1/Enseignement_home-button.css" rel="stylesheet" />
+<link href="libs/ecoles_priv_Mtl-CSS-0.0.1/ecoles_priv_Mtl_home-button.css" rel="stylesheet" />
+<link href="libs/college_Mtl-CSS-0.0.1/college_Mtl_home-button.css" rel="stylesheet" />
+<link href="libs/univ_Mtl-CSS-0.0.1/univ_Mtl_home-button.css" rel="stylesheet" />
+<link href="libs/Nom_des_lignes-CSS-0.0.1/Nom_des_lignes_home-button.css" rel="stylesheet" />
+<link href="libs/Régions-CSS-0.0.1/Régions_home-button.css" rel="stylesheet" />
+<link href="libs/nz-CSS-0.0.1/nz_home-button.css" rel="stylesheet" />
+<link href="libs/nz_capitales_points-CSS-0.0.1/nz_capitales_points_home-button.css" rel="stylesheet" />
+<script src="libs/M - 1_6d3ba9-1/data_stars_M196dea7.txt"></script>
+<script src="libs/joda-0.0.1/joda.js"></script>
+<script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
+<script src="libs/M_logique_numeric - 1_c95160-1/data_stars_M_logique_numeric1b1c276.txt"></script>
+<link href="libs/M_logique_numeric___1-CSS-0.0.1/M_logique_numeric___1_home-button.css" rel="stylesheet" />
+<script src="libs/M_factor - 1_2b8df3-1/data_stars_M_factor1a6d503.txt"></script>
+<link href="libs/M_factor___1-CSS-0.0.1/M_factor___1_home-button.css" rel="stylesheet" />
+<script src="libs/ICU_de0478-1/data_stars_ICU0591b2.txt"></script>
+<script src="libs/ICU_7fd40e-1/data_stars_ICUf7d35a.txt"></script>
+<link href="libs/ICU-CSS-0.0.1/ICU_home-button.css" rel="stylesheet" />
+<script src="libs/T_sec - 1_f58bac-1/data_stars_T_sec1c904f6.txt"></script>
+<script src="libs/T_fact4_moy - 1_d20c7a-1/data_stars_T_fact4_moy1970dec.txt"></script>
+<script src="libs/T_fact4_max - 1_6db452-1/data_stars_T_fact4_max1b23e6f.txt"></script>
+<script src="libs/T_fact8_moy - 1_1ae42b-1/data_stars_T_fact8_moy1987a31.txt"></script>
+<script src="libs/T_fact8_max - 1_d6fc83-1/data_stars_T_fact8_max18c9142.txt"></script>
+<script src="libs/SR - 1_0185fa-1/data_stars_SR158623d.txt"></script>
+<script src="libs/SG - 1_207fae-1/data_stars_SG18fd763.txt"></script>
+<script src="libs/SB - 1_08e3fc-1/data_stars_SB1819bfe.txt"></script>
+<script src="libs/R2001f - 1_e51b27-1/data_stars_R2001f1de039a.txt"></script>
+<link href="libs/R2001f___1-CSS-0.0.1/R2001f___1_home-button.css" rel="stylesheet" />
+<script src="libs/R2001f - 1_164e5d-1/data_stars_R2001f134f7e2.txt"></script>
+<script src="libs/R2016f - 1_0693ea-1/data_stars_R2016f172a51b.txt"></script>
+<link href="libs/R2016f___1-CSS-0.0.1/R2016f___1_home-button.css" rel="stylesheet" />
+<link href="libs/municipalites-CSS-0.0.1/municipalites_home-button.css" rel="stylesheet" />
+<link href="libs/la_poc-CSS-0.0.1/la_poc_home-button.css" rel="stylesheet" />
+<link href="libs/regions-CSS-0.0.1/regions_home-button.css" rel="stylesheet" />
+<link href="libs/villes_reg-CSS-0.0.1/villes_reg_home-button.css" rel="stylesheet" />
+<link href="libs/villes_reg___Rgns_Ad-CSS-0.0.1/villes_reg___Rgns_Ad_home-button.css" rel="stylesheet" />
+<link href="libs/villes_CN-CSS-0.0.1/villes_CN_home-button.css" rel="stylesheet" />
+<link href="libs/reg_pop2-CSS-0.0.1/reg_pop2_home-button.css" rel="stylesheet" />
+<link href="libs/regions_nad-CSS-0.0.1/regions_nad_home-button.css" rel="stylesheet" />
+<link href="libs/regions_simple_10-CSS-0.0.1/regions_simple_10_home-button.css" rel="stylesheet" />
+<link href="libs/regions_simple_40-CSS-0.0.1/regions_simple_40_home-button.css" rel="stylesheet" />
+<link href="libs/GIM___Nom_reg-CSS-0.0.1/GIM___Nom_reg_home-button.css" rel="stylesheet" />
+<link href="libs/GIM_combine-CSS-0.0.1/GIM_combine_home-button.css" rel="stylesheet" />
+<link href="libs/GIM_union-CSS-0.0.1/GIM_union_home-button.css" rel="stylesheet" />
+<link href="libs/Mauricie-CSS-0.0.1/Mauricie_home-button.css" rel="stylesheet" />
+<link href="libs/Mauricie_lines-CSS-0.0.1/Mauricie_lines_home-button.css" rel="stylesheet" />
+<link href="libs/Mauricie_pts-CSS-0.0.1/Mauricie_pts_home-button.css" rel="stylesheet" />
+<link href="libs/villes_NQ_combo-CSS-0.0.1/villes_NQ_combo_home-button.css" rel="stylesheet" />
+<link href="libs/villes_NQ_lines-CSS-0.0.1/villes_NQ_lines_home-button.css" rel="stylesheet" />
+<link href="libs/villes_NQ_pol-CSS-0.0.1/villes_NQ_pol_home-button.css" rel="stylesheet" />
+<link href="libs/la_poc_tampon50-CSS-0.0.1/la_poc_tampon50_home-button.css" rel="stylesheet" />
+<link href="libs/la_poc_tampon10-CSS-0.0.1/la_poc_tampon10_home-button.css" rel="stylesheet" />
+<link href="libs/SagStJean_tampon50-CSS-0.0.1/SagStJean_tampon50_home-button.css" rel="stylesheet" />
+<link href="libs/SagStJean-CSS-0.0.1/SagStJean_home-button.css" rel="stylesheet" />
+<link href="libs/Abitibi_tampon20-CSS-0.0.1/Abitibi_tampon20_home-button.css" rel="stylesheet" />
+<link href="libs/Abitibi-CSS-0.0.1/Abitibi_home-button.css" rel="stylesheet" />
+<link href="libs/centre_SagStJean-CSS-0.0.1/centre_SagStJean_home-button.css" rel="stylesheet" />
+<link href="libs/centre_Abitibi-CSS-0.0.1/centre_Abitibi_home-button.css" rel="stylesheet" />
+<link href="libs/A-CSS-0.0.1/A_home-button.css" rel="stylesheet" />
+<link href="libs/B-CSS-0.0.1/B_home-button.css" rel="stylesheet" />
+<link href="libs/union_AB-CSS-0.0.1/union_AB_home-button.css" rel="stylesheet" />
+<link href="libs/diff_AB-CSS-0.0.1/diff_AB_home-button.css" rel="stylesheet" />
+<link href="libs/diff_BA-CSS-0.0.1/diff_BA_home-button.css" rel="stylesheet" />
+<link href="libs/inter_AB-CSS-0.0.1/inter_AB_home-button.css" rel="stylesheet" />
+<link href="libs/sym_diff_AB-CSS-0.0.1/sym_diff_AB_home-button.css" rel="stylesheet" />
+<link href="libs/point_bleu-CSS-0.0.1/point_bleu_home-button.css" rel="stylesheet" />
+<link href="libs/point_rouge-CSS-0.0.1/point_rouge_home-button.css" rel="stylesheet" />
+<link href="libs/point_violet-CSS-0.0.1/point_violet_home-button.css" rel="stylesheet" />
+<link href="libs/point_jaune-CSS-0.0.1/point_jaune_home-button.css" rel="stylesheet" />
+<link href="libs/point_vert-CSS-0.0.1/point_vert_home-button.css" rel="stylesheet" />
+<link href="libs/trait_bleu-CSS-0.0.1/trait_bleu_home-button.css" rel="stylesheet" />
+<link href="libs/trait_mauve-CSS-0.0.1/trait_mauve_home-button.css" rel="stylesheet" />
+<link href="libs/contour_rose-CSS-0.0.1/contour_rose_home-button.css" rel="stylesheet" />
+<link href="libs/trait_vert-CSS-0.0.1/trait_vert_home-button.css" rel="stylesheet" />
+<link href="libs/top10_villes___population-CSS-0.0.1/top10_villes___population_home-button.css" rel="stylesheet" />
+<link href="libs/parcs_nationaux___TRQ_NM_TER-CSS-0.0.1/parcs_nationaux___TRQ_NM_TER_home-button.css" rel="stylesheet" />
+<link href="libs/top10_villes_buffer___toponyme-CSS-0.0.1/top10_villes_buffer___toponyme_home-button.css" rel="stylesheet" />
+<link href="libs/Poly_Selection-CSS-0.0.1/Poly_Selection_home-button.css" rel="stylesheet" />
+<link href="libs/Frontiere-CSS-0.0.1/Frontiere_home-button.css" rel="stylesheet" />
+<link href="libs/Frontiere_tampon-CSS-0.0.1/Frontiere_tampon_home-button.css" rel="stylesheet" />
+<link href="libs/Villes_Frontiere_tampon-CSS-0.0.1/Villes_Frontiere_tampon_home-button.css" rel="stylesheet" />
+<link href="libs/Sherb_Fermont-CSS-0.0.1/Sherb_Fermont_home-button.css" rel="stylesheet" />
+<link href="libs/Sherb_Fermont_ligne-CSS-0.0.1/Sherb_Fermont_ligne_home-button.css" rel="stylesheet" />
+<link href="libs/regions_traversees-CSS-0.0.1/regions_traversees_home-button.css" rel="stylesheet" />
+<link href="libs/Parcs_SJSR_tampon-CSS-0.0.1/Parcs_SJSR_tampon_home-button.css" rel="stylesheet" />
+<link href="libs/SJSR_tampon-CSS-0.0.1/SJSR_tampon_home-button.css" rel="stylesheet" />
+<script src="libs/dem - 1_2986b4-1/data_stars_dem1496dc5.txt"></script>
+<link href="libs/dem___1-CSS-0.0.1/dem___1_home-button.css" rel="stylesheet" />
+<link href="libs/parcs___TRQ_NM_-CSS-0.0.1/parcs___TRQ_NM__home-button.css" rel="stylesheet" />
+<script src="libs/nouvelles_classes_dem - 1_35027d-1/data_stars_nouvelles_classes_dem1d4fb7a.txt"></script>
+<link href="libs/nouvelles_classes_dem___1-CSS-0.0.1/nouvelles_classes_dem___1_home-button.css" rel="stylesheet" />
+<script src="libs/classify(dem, nouvelles_classes2) - 1_03efd1-1/data_stars_classifydemnouvelles_classes21b174e2.txt"></script>
+<link href="libs/classify_dem__nouvelles_classes2____1-CSS-0.0.1/classify_dem__nouvelles_classes2____1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_cr - 1_ae9b3c-1/data_stars_dem_cr127b165.txt"></script>
+<link href="libs/dem_cr___1-CSS-0.0.1/dem_cr___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_cr_p - 1_c613e0-1/data_stars_dem_cr_p11594e8.txt"></script>
+<link href="libs/dem_cr_p___1-CSS-0.0.1/dem_cr_p___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem - 1_d97b51-1/data_stars_dem18e59ac.txt"></script>
+<link href="libs/pol-CSS-0.0.1/pol_home-button.css" rel="stylesheet" />
+<script src="libs/dem_ma - 1_b58fad-1/data_stars_dem_ma1cf364a.txt"></script>
+<link href="libs/dem_ma___1-CSS-0.0.1/dem_ma___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_ma_inv - 1_2a73c6-1/data_stars_dem_ma_inv113c827.txt"></script>
+<link href="libs/dem_ma_inv___1-CSS-0.0.1/dem_ma_inv___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_ma - 1_ac841d-1/data_stars_dem_ma197df2a.txt"></script>
+<script src="libs/dem_ma_inv - 1_8f456d-1/data_stars_dem_ma_inv1846290.txt"></script>
+<script src="libs/dem_merge - 1_d9a5c7-1/data_stars_dem_merge13c584d.txt"></script>
+<link href="libs/dem_merge___1-CSS-0.0.1/dem_merge___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_merge_ordre1 - 1_1b8e2d-1/data_stars_dem_merge_ordre115d9384.txt"></script>
+<link href="libs/dem_merge_ordre1___1-CSS-0.0.1/dem_merge_ordre1___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_merge_ordre2 - 1_f297bc-1/data_stars_dem_merge_ordre213f7892.txt"></script>
+<link href="libs/dem_merge_ordre2___1-CSS-0.0.1/dem_merge_ordre2___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_mosaic_min - 1_2ac9b7-1/data_stars_dem_mosaic_min11024ba.txt"></script>
+<link href="libs/dem_mosaic_min___1-CSS-0.0.1/dem_mosaic_min___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_mosaic_max - 1_ec2457-1/data_stars_dem_mosaic_max1425f0c.txt"></script>
+<link href="libs/dem_mosaic_max___1-CSS-0.0.1/dem_mosaic_max___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_mosaic_mean - 1_aceb76-1/data_stars_dem_mosaic_mean1ca7d29.txt"></script>
+<link href="libs/dem_mosaic_mean___1-CSS-0.0.1/dem_mosaic_mean___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_parcs - 1_a40783-1/data_stars_dem_parcs16d837b.txt"></script>
+<link href="libs/dem_parcs___1-CSS-0.0.1/dem_parcs___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_parcs - 1_af085e-1/data_stars_dem_parcs19574bc.txt"></script>
+<link href="libs/parcs-CSS-0.0.1/parcs_home-button.css" rel="stylesheet" />
+<link href="libs/sf_point_max-CSS-0.0.1/sf_point_max_home-button.css" rel="stylesheet" />
+<link href="libs/sentiers-CSS-0.0.1/sentiers_home-button.css" rel="stylesheet" />
+<link href="libs/sentiers_megantic-CSS-0.0.1/sentiers_megantic_home-button.css" rel="stylesheet" />
+<link href="libs/sentier_top-CSS-0.0.1/sentier_top_home-button.css" rel="stylesheet" />
+<link href="libs/rando_sections___id-CSS-0.0.1/rando_sections___id_home-button.css" rel="stylesheet" />
+<script src="libs/dem_orford - 1_13aed2-1/data_stars_dem_orford176f59d.txt"></script>
+<link href="libs/dem_orford___1-CSS-0.0.1/dem_orford___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_orford - 1_b67a23-1/data_stars_dem_orford181b7c9.txt"></script>
+<link href="libs/pt_max_orford-CSS-0.0.1/pt_max_orford_home-button.css" rel="stylesheet" />
+<script src="libs/dem_orford_quantile - 1_215e47-1/data_stars_dem_orford_quantile139abd1.txt"></script>
+<link href="libs/dem_orford_quantile___1-CSS-0.0.1/dem_orford_quantile___1_home-button.css" rel="stylesheet" />
+<script src="libs/dem_orford_quantile - 1_6bf95e-1/data_stars_dem_orford_quantile163b240.txt"></script>
+<link href="libs/pt_max_megantic-CSS-0.0.1/pt_max_megantic_home-button.css" rel="stylesheet" />
+<link href="libs/pt_max_yamaska-CSS-0.0.1/pt_max_yamaska_home-button.css" rel="stylesheet" />
+<link href="libs/pt_max_frontenac-CSS-0.0.1/pt_max_frontenac_home-button.css" rel="stylesheet" />
+<script src="libs/dem_tampon_max - 1_b3746f-1/data_stars_dem_tampon_max12978ed.txt"></script>
+<link href="libs/dem_tampon_max___1-CSS-0.0.1/dem_tampon_max___1_home-button.css" rel="stylesheet" />
+<link href="libs/traj_rapide-CSS-0.0.1/traj_rapide_home-button.css" rel="stylesheet" />
+<link href="libs/traj_long-CSS-0.0.1/traj_long_home-button.css" rel="stylesheet" />
+<link href="libs/lin-CSS-0.0.1/lin_home-button.css" rel="stylesheet" />
+<link href="libs/megantic-CSS-0.0.1/megantic_home-button.css" rel="stylesheet" />
+<link href="libs/megantic_buf-CSS-0.0.1/megantic_buf_home-button.css" rel="stylesheet" />
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="css/extra.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">TELUQ -  SCI 1031.</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#section" id="toc-section"></a></li>
+<li class="part"><span><b>I SCI 1031</b></span></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html"><i class="fa fa-check"></i>À propos du cours</a>
+<ul>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#pr%C3%A9sentation"><i class="fa fa-check"></i>Présentation</a>
+<ul>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#pourquoi-suivre-ce-cours"><i class="fa fa-check"></i>Pourquoi suivre ce cours ?</a></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#pourquoi-r"><i class="fa fa-check"></i>Pourquoi R ?</a></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#objectifs"><i class="fa fa-check"></i>Objectifs</a></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#contenu-sommaire"><i class="fa fa-check"></i>Contenu sommaire</a></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#fonctionnement-du-cours"><i class="fa fa-check"></i>Fonctionnement du cours</a></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#travaux-not%C3%A9s"><i class="fa fa-check"></i>Travaux notés</a></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#r%C3%A9troaction"><i class="fa fa-check"></i>Rétroaction</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#route"><i class="fa fa-check"></i>Feuille de route</a></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#cr%C3%A9dits"><i class="fa fa-check"></i>Crédits</a>
+<ul>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#%C3%A9quipe"><i class="fa fa-check"></i>Équipe</a></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#reproduction-du-contenu"><i class="fa fa-check"></i>Reproduction du contenu</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="à-propos-du-cours.html"><a href="à-propos-du-cours.html#contact"><i class="fa fa-check"></i>Contact</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html"><i class="fa fa-check"></i>Ressources</a>
+<ul>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#travaux-not%C3%A9s-1"><i class="fa fa-check"></i>Travaux notés</a></li>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#donn%C3%A9es"><i class="fa fa-check"></i>Données</a>
+<ul>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#donn%C3%A9es-du-cours"><i class="fa fa-check"></i>Données du cours</a></li>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#autres-sources"><i class="fa fa-check"></i>Autres sources</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#ressources-r"><i class="fa fa-check"></i>Ressources R</a>
+<ul>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#documentation-g%C3%A9n%C3%A9rale-r"><i class="fa fa-check"></i>Documentation générale R</a></li>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#documentation-r-g%C3%A9ospatial"><i class="fa fa-check"></i>Documentation R-géospatial</a></li>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#les-biblioth%C3%A8ques-r"><i class="fa fa-check"></i>Les bibliothèques R</a></li>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#res_RMarkdown"><i class="fa fa-check"></i>Documentation R-Markdown</a></li>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#les-couleurs-dans-r"><i class="fa fa-check"></i>Les couleurs dans R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ressources.html"><a href="ressources.html#r%C3%A9f%C3%A9rences"><i class="fa fa-check"></i>Références</a></li>
+</ul></li>
+<li class="part"><span><b>II Apprentissage</b></span></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="lecon_intro.html"><a href="lecon_intro.html"><i class="fa fa-check"></i><b>1.1</b> Leçon</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="lecon_intro.html"><a href="lecon_intro.html#hist"><i class="fa fa-check"></i><b>1.1.1</b> Les données spatiales d’hier à aujourd’hui</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#les-cartes-anciennes"><i class="fa fa-check"></i>Les cartes anciennes</a></li>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#la-g%C3%A9omatique"><i class="fa fa-check"></i>La géomatique</a></li>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#la-science-des-donn%C3%A9es"><i class="fa fa-check"></i>La science des données</a></li>
+</ul></li>
+<li class="chapter" data-level="1.1.2" data-path="lecon_intro.html"><a href="lecon_intro.html#outils"><i class="fa fa-check"></i><b>1.1.2</b> Les outils et logiciels de visualisation et d’analyse géo-spatiale</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#les-logiciels-commerciaux"><i class="fa fa-check"></i>Les logiciels commerciaux</a></li>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#les-logiciels-libres-dacc%C3%A8s"><i class="fa fa-check"></i>Les logiciels libres d’accès</a></li>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#les-services-dinfonuagique"><i class="fa fa-check"></i>Les services d’infonuagique</a></li>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#les-langages-de-programmation-pour-lanalyse-g%C3%A9ospatiale"><i class="fa fa-check"></i>Les langages de programmation pour l’analyse géospatiale</a></li>
+</ul></li>
+<li class="chapter" data-level="1.1.3" data-path="lecon_intro.html"><a href="lecon_intro.html#outil_R"><i class="fa fa-check"></i><b>1.1.3</b> Les bibliothèques géo-spatiales de R</a></li>
+<li class="chapter" data-level="1.1.4" data-path="lecon_intro.html"><a href="lecon_intro.html#pensee_geo"><i class="fa fa-check"></i><b>1.1.4</b> La pensée géographique</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#%C3%A9chelle-spatiale"><i class="fa fa-check"></i>Échelle spatiale</a></li>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#%C3%A9chelle-cartographique"><i class="fa fa-check"></i>Échelle cartographique</a></li>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#distance"><i class="fa fa-check"></i>Distance</a></li>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#contigu%C3%AFt%C3%A9"><i class="fa fa-check"></i>Contiguïté</a></li>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#interaction"><i class="fa fa-check"></i>Interaction</a></li>
+<li class="chapter" data-level="" data-path="lecon_intro.html"><a href="lecon_intro.html#voisinage"><i class="fa fa-check"></i>Voisinage</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="ex_intro.html"><a href="ex_intro.html"><i class="fa fa-check"></i><b>1.2</b> Exercices</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="ex_intro.html"><a href="ex_intro.html#demarrage"><i class="fa fa-check"></i><b>1.2.1</b> Démarrage</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#installer-r"><i class="fa fa-check"></i>Installer R</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#installer-rstudio"><i class="fa fa-check"></i>Installer RStudio</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#apprivoiser-rstudio"><i class="fa fa-check"></i>Apprivoiser RStudio</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#cr%C3%A9er-un-fichier-r"><i class="fa fa-check"></i>Créer un fichier R</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#les-biblioth%C3%A8ques"><i class="fa fa-check"></i>Les bibliothèques</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#le-r%C3%A9pertoire-de-travail"><i class="fa fa-check"></i>Le répertoire de travail</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2.2" data-path="ex_intro.html"><a href="ex_intro.html#introR"><i class="fa fa-check"></i><b>1.2.2</b> Intro à R</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#la-base"><i class="fa fa-check"></i>La base</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#les-objets"><i class="fa fa-check"></i>Les objets</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#les-cat%C3%A9gories-de-donn%C3%A9es"><i class="fa fa-check"></i>Les catégories de données</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#les-structures-de-donn%C3%A9es"><i class="fa fa-check"></i>Les structures de données</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#importer-et-exporter-des-donn%C3%A9es"><i class="fa fa-check"></i>Importer et exporter des données</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#graphiques-de-base"><i class="fa fa-check"></i>Graphiques de base</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2.3" data-path="ex_intro.html"><a href="ex_intro.html#exo1"><i class="fa fa-check"></i><b>1.2.3</b> À vous de jouer!</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#question-1"><i class="fa fa-check"></i>Question 1</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#question-2"><i class="fa fa-check"></i>Question 2</a></li>
+<li class="chapter" data-level="" data-path="ex_intro.html"><a href="ex_intro.html#question-3"><i class="fa fa-check"></i>Question 3</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="base.html"><a href="base.html"><i class="fa fa-check"></i><b>2</b> Modèles de données spatiales</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="leçon.html"><a href="leçon.html"><i class="fa fa-check"></i><b>2.1</b> Leçon</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="leçon.html"><a href="leçon.html#les-donn%C3%A9es-vectorielles"><i class="fa fa-check"></i><b>2.1.1</b> Les données vectorielles</a></li>
+<li class="chapter" data-level="2.1.2" data-path="leçon.html"><a href="leçon.html#les-donn%C3%A9es-matricielles"><i class="fa fa-check"></i><b>2.1.2</b> Les données matricielles</a></li>
+<li class="chapter" data-level="2.1.3" data-path="leçon.html"><a href="leçon.html#structure-en-couches"><i class="fa fa-check"></i><b>2.1.3</b> Structure en couches</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="ex_markdown1.html"><a href="ex_markdown1.html"><i class="fa fa-check"></i><b>2.2</b> Exercices</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="ex_markdown1.html"><a href="ex_markdown1.html#introduction-%C3%A0-r-markdown"><i class="fa fa-check"></i><b>2.2.1</b> Introduction à R Markdown</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#b%C3%A9n%C3%A9fices-de-r-markdown"><i class="fa fa-check"></i>Bénéfices de R Markdown</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#quest-ce-que-markdown"><i class="fa fa-check"></i>Qu’est-ce que Markdown?</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#quest-ce-que-pandoc"><i class="fa fa-check"></i>Qu’est-ce que Pandoc?</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2.2" data-path="ex_markdown1.html"><a href="ex_markdown1.html#utiliser-un-fichier-rmarkdown"><i class="fa fa-check"></i><b>2.2.2</b> Utiliser un fichier RMarkdown</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#organisation-g%C3%A9n%C3%A9rale"><i class="fa fa-check"></i>Organisation générale</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#installer-r-markdown"><i class="fa fa-check"></i>Installer R Markdown</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#createmarkdownfile"><i class="fa fa-check"></i>Créer un fichier R Markdown</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#sp%C3%A9cifier-les-options-yaml"><i class="fa fa-check"></i>Spécifier les options YAML</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#%C3%A9diter-le-contenu-du-fichier-r-markdown"><i class="fa fa-check"></i>Éditer le contenu du fichier R Markdown</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#obtenir-le-document-final"><i class="fa fa-check"></i>Obtenir le document final</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2.3" data-path="ex_markdown1.html"><a href="ex_markdown1.html#exo2"><i class="fa fa-check"></i><b>2.2.3</b> À vous de jouer !</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#question-1-1"><i class="fa fa-check"></i>Question 1</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown1.html"><a href="ex_markdown1.html#question-2-1"><i class="fa fa-check"></i>Question 2</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="SRC.html"><a href="SRC.html"><i class="fa fa-check"></i><b>3</b> Systèmes de coordonnées de référence</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="leçon-1.html"><a href="leçon-1.html"><i class="fa fa-check"></i><b>3.1</b> Leçon</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="leçon-1.html"><a href="leçon-1.html#les-syst%C3%A8mes-g%C3%A9od%C3%A9siques"><i class="fa fa-check"></i><b>3.1.1</b> Les systèmes géodésiques</a></li>
+<li class="chapter" data-level="3.1.2" data-path="leçon-1.html"><a href="leçon-1.html#les-syst%C3%A8mes-de-coordonn%C3%A9es"><i class="fa fa-check"></i><b>3.1.2</b> Les systèmes de coordonnées</a></li>
+<li class="chapter" data-level="3.1.3" data-path="leçon-1.html"><a href="leçon-1.html#les-projections"><i class="fa fa-check"></i><b>3.1.3</b> Les projections</a></li>
+<li class="chapter" data-level="3.1.4" data-path="leçon-1.html"><a href="leçon-1.html#projections-couramment-utilis%C3%A9es"><i class="fa fa-check"></i><b>3.1.4</b> Projections couramment utilisées</a></li>
+<li class="chapter" data-level="3.1.5" data-path="leçon-1.html"><a href="leçon-1.html#repr%C3%A9sentation-dun-scr"><i class="fa fa-check"></i><b>3.1.5</b> Représentation d’un SCR</a>
+<ul>
+<li class="chapter" data-level="" data-path="leçon-1.html"><a href="leçon-1.html#le-well-known-text"><i class="fa fa-check"></i>Le Well-known text</a></li>
+<li class="chapter" data-level="" data-path="leçon-1.html"><a href="leçon-1.html#la-syntaxe-proj4"><i class="fa fa-check"></i>La syntaxe PROJ4</a></li>
+<li class="chapter" data-level="" data-path="leçon-1.html"><a href="leçon-1.html#code_epsg"><i class="fa fa-check"></i>Les codes EPSG</a></li>
+</ul></li>
+<li class="chapter" data-level="3.1.6" data-path="leçon-1.html"><a href="leçon-1.html#r%C3%A9sum%C3%A9"><i class="fa fa-check"></i><b>3.1.6</b> Résumé</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="ex_markdown2.html"><a href="ex_markdown2.html"><i class="fa fa-check"></i><b>3.2</b> Exercices</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="ex_markdown2.html"><a href="ex_markdown2.html#pandocmarkdown"><i class="fa fa-check"></i><b>3.2.1</b> Le variante Pandoc de Markdown</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#informations-de-d%C3%A9part"><i class="fa fa-check"></i>Informations de départ</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#d%C3%A9coration-du-texte"><i class="fa fa-check"></i>Décoration du texte</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#les-titres"><i class="fa fa-check"></i>Les titres</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#les-listes-1"><i class="fa fa-check"></i>Les listes</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#blocs-de-citation"><i class="fa fa-check"></i>Blocs de citation</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#les-symboles-mat%C3%A9matiques"><i class="fa fa-check"></i>Les symboles matématiques</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#exo3_images"><i class="fa fa-check"></i>Les images</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#les-tableaux"><i class="fa fa-check"></i>Les tableaux</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#les-r%C3%A9f%C3%A9rences"><i class="fa fa-check"></i>Les références</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2.2" data-path="ex_markdown2.html"><a href="ex_markdown2.html#blocsR"><i class="fa fa-check"></i><b>3.2.2</b> Intégration de R dans le document</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#les-commentaires-1"><i class="fa fa-check"></i>Les commentaires</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#affichage-du-code-source"><i class="fa fa-check"></i>Affichage du code source</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#affichage-des-sorties"><i class="fa fa-check"></i>Affichage des sorties</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#mode-d%C3%A9valuation-du-code"><i class="fa fa-check"></i>Mode d’évaluation du code</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#les-tableaux-1"><i class="fa fa-check"></i>Les tableaux</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#les-figures"><i class="fa fa-check"></i>Les figures</a></li>
+<li class="chapter" data-level="" data-path="ex_markdown2.html"><a href="ex_markdown2.html#les-graphiques-non-g%C3%A9n%C3%A9r%C3%A9s-par-r"><i class="fa fa-check"></i>Les graphiques non-générés par R</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2.3" data-path="ex_markdown2.html"><a href="ex_markdown2.html#exo3"><i class="fa fa-check"></i><b>3.2.3</b> À vous de jouer !</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="vec.html"><a href="vec.html"><i class="fa fa-check"></i><b>4</b> Données vectorielles</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lecon_vec.html"><a href="lecon_vec.html"><i class="fa fa-check"></i><b>4.1</b> Leçon</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="lecon_vec.html"><a href="lecon_vec.html#data_mod4"><i class="fa fa-check"></i><b>4.1.1</b> Télécharger les données</a></li>
+<li class="chapter" data-level="4.1.2" data-path="lecon_vec.html"><a href="lecon_vec.html#create_vec"><i class="fa fa-check"></i><b>4.1.2</b> Créer des données vectorielles</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#cr%C3%A9er-des-g%C3%A9om%C3%A9tries-simples"><i class="fa fa-check"></i>Créer des géométries simples</a></li>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#attribuer-un-scr"><i class="fa fa-check"></i>Attribuer un SCR</a></li>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#d%C3%A9finir-des-attributs"><i class="fa fa-check"></i>Définir des attributs</a></li>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#fct_st_as_sf"><i class="fa fa-check"></i>La fonction <code>st_as_sf()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.1.3" data-path="lecon_vec.html"><a href="lecon_vec.html#read_vec"><i class="fa fa-check"></i><b>4.1.3</b> Lire un shapefile et interpréter sa géométrie</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#lire-shp"><i class="fa fa-check"></i>Lire les données</a></li>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#explorer-les-m%C3%A9tadonn%C3%A9es-dun-shapefile"><i class="fa fa-check"></i>Explorer les métadonnées d’un shapefile</a></li>
+</ul></li>
+<li class="chapter" data-level="4.1.4" data-path="lecon_vec.html"><a href="lecon_vec.html#visualisation-de-shapefiles-sous-r"><i class="fa fa-check"></i><b>4.1.4</b> Visualisation de shapefiles sous R</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#visualisation-avec-la-librairie-mapview"><i class="fa fa-check"></i>Visualisation avec la librairie Mapview</a></li>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#visualiser-des-donn%C3%A9es-vectorielles-par-attribut"><i class="fa fa-check"></i>Visualiser des données vectorielles par attribut</a></li>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#visualiser-plusieurs-shapefiles"><i class="fa fa-check"></i>Visualiser plusieurs shapefiles</a></li>
+</ul></li>
+<li class="chapter" data-level="4.1.5" data-path="lecon_vec.html"><a href="lecon_vec.html#reprojection-de-donn%C3%A9es-vectorielles-sous-r"><i class="fa fa-check"></i><b>4.1.5</b> Reprojection de données vectorielles sous R</a></li>
+<li class="chapter" data-level="4.1.6" data-path="lecon_vec.html"><a href="lecon_vec.html#gdt"><i class="fa fa-check"></i><b>4.1.6</b> Lire une géodatabase et explorer ses couches</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#lire-les-donn%C3%A9es"><i class="fa fa-check"></i>Lire les données</a></li>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#explorer-les-attributs-dune-couche"><i class="fa fa-check"></i>Explorer les attributs d’une couche</a></li>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#s%C3%A9lection-dun-sous-ensemble-de-donn%C3%A9es"><i class="fa fa-check"></i>Sélection d’un sous-ensemble de données</a></li>
+<li class="chapter" data-level="" data-path="lecon_vec.html"><a href="lecon_vec.html#visualisation-de-plusieurs-couches-dune-g%C3%A9odatabse"><i class="fa fa-check"></i>Visualisation de plusieurs couches d’une géodatabse</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="ex_vec.html"><a href="ex_vec.html"><i class="fa fa-check"></i><b>4.2</b> Exercices</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_vec.html"><a href="ex_vec.html#question-1-2"><i class="fa fa-check"></i>Question 1</a></li>
+<li class="chapter" data-level="" data-path="ex_vec.html"><a href="ex_vec.html#question-2-2"><i class="fa fa-check"></i>Question 2</a></li>
+<li class="chapter" data-level="" data-path="ex_vec.html"><a href="ex_vec.html#question-3-1"><i class="fa fa-check"></i>Question 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="mat.html"><a href="mat.html"><i class="fa fa-check"></i><b>5</b> Données matricielles</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="lecon_mat.html"><a href="lecon_mat.html"><i class="fa fa-check"></i><b>5.1</b> Leçon</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="lecon_mat.html"><a href="lecon_mat.html#data_mod5"><i class="fa fa-check"></i><b>5.1.1</b> Télécharger les données</a></li>
+<li class="chapter" data-level="5.1.2" data-path="lecon_mat.html"><a href="lecon_mat.html#create_mat"><i class="fa fa-check"></i><b>5.1.2</b> Créer des données matricielles</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_mat.html"><a href="lecon_mat.html#cr%C3%A9er-un-raster-simple-et-le-visualiser"><i class="fa fa-check"></i>Créer un raster simple et le visualiser</a></li>
+<li class="chapter" data-level="" data-path="lecon_mat.html"><a href="lecon_mat.html#raster-de-diff%C3%A9rents-types-de-donn%C3%A9es"><i class="fa fa-check"></i>Raster de différents types de données</a></li>
+</ul></li>
+<li class="chapter" data-level="5.1.3" data-path="lecon_mat.html"><a href="lecon_mat.html#comprendre-la-structure-dun-raster"><i class="fa fa-check"></i><b>5.1.3</b> Comprendre la structure d’un raster</a></li>
+<li class="chapter" data-level="5.1.4" data-path="lecon_mat.html"><a href="lecon_mat.html#statistiques-de-base-sur-un-raster"><i class="fa fa-check"></i><b>5.1.4</b> Statistiques de base sur un raster</a></li>
+<li class="chapter" data-level="5.1.5" data-path="lecon_mat.html"><a href="lecon_mat.html#read_mat"><i class="fa fa-check"></i><b>5.1.5</b> Lire un raster et explorer son contenu</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_mat.html"><a href="lecon_mat.html#lire-les-donn%C3%A9es-1"><i class="fa fa-check"></i>Lire les données</a></li>
+<li class="chapter" data-level="" data-path="lecon_mat.html"><a href="lecon_mat.html#explorer-les-statistiques-de-base"><i class="fa fa-check"></i>Explorer les statistiques de base</a></li>
+</ul></li>
+<li class="chapter" data-level="5.1.6" data-path="lecon_mat.html"><a href="lecon_mat.html#visualiser-les-donn%C3%A9es-matricielles-avec-mapview"><i class="fa fa-check"></i><b>5.1.6</b> Visualiser les données matricielles avec mapview()</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_mat.html"><a href="lecon_mat.html#visualiser-une-section-dun-raster"><i class="fa fa-check"></i>Visualiser une section d’un raster</a></li>
+</ul></li>
+<li class="chapter" data-level="5.1.7" data-path="lecon_mat.html"><a href="lecon_mat.html#changer-la-r%C3%A9solution-dun-raster"><i class="fa fa-check"></i><b>5.1.7</b> Changer la résolution d’un raster</a></li>
+<li class="chapter" data-level="5.1.8" data-path="lecon_mat.html"><a href="lecon_mat.html#changer-la-projection-dun-raster"><i class="fa fa-check"></i><b>5.1.8</b> Changer la projection d’un <em>raster</em></a></li>
+<li class="chapter" data-level="5.1.9" data-path="lecon_mat.html"><a href="lecon_mat.html#sauvegarder-un-raster"><i class="fa fa-check"></i><b>5.1.9</b> Sauvegarder un raster</a></li>
+<li class="chapter" data-level="5.1.10" data-path="lecon_mat.html"><a href="lecon_mat.html#read_mult"><i class="fa fa-check"></i><b>5.1.10</b> Lire et visualiser des données matricielles multi-bande</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_mat.html"><a href="lecon_mat.html#lire-des-donn%C3%A9es-multi-bande"><i class="fa fa-check"></i>Lire des données multi-bande</a></li>
+<li class="chapter" data-level="" data-path="lecon_mat.html"><a href="lecon_mat.html#combiner-des-couches-en-un-spatraster"><i class="fa fa-check"></i>Combiner des couches en un SpatRaster</a></li>
+<li class="chapter" data-level="" data-path="lecon_mat.html"><a href="lecon_mat.html#visualiser-un-raster-multi-bande"><i class="fa fa-check"></i>Visualiser un raster multi-bande</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="ex_mat.html"><a href="ex_mat.html"><i class="fa fa-check"></i><b>5.2</b> Exercices</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_mat.html"><a href="ex_mat.html#question-1-3"><i class="fa fa-check"></i>Question 1</a></li>
+<li class="chapter" data-level="" data-path="ex_mat.html"><a href="ex_mat.html#question-2-3"><i class="fa fa-check"></i>Question 2</a></li>
+<li class="chapter" data-level="" data-path="ex_mat.html"><a href="ex_mat.html#question-3-2"><i class="fa fa-check"></i>Question 3</a></li>
+<li class="chapter" data-level="" data-path="ex_mat.html"><a href="ex_mat.html#question-4"><i class="fa fa-check"></i>Question 4</a></li>
+<li class="chapter" data-level="" data-path="ex_mat.html"><a href="ex_mat.html#question-5"><i class="fa fa-check"></i>Question 5</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="carto.html"><a href="carto.html"><i class="fa fa-check"></i><b>6</b> Cartographie</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="lecon_carto.html"><a href="lecon_carto.html"><i class="fa fa-check"></i><b>6.1</b> Leçon</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="lecon_carto.html"><a href="lecon_carto.html#data_mod6"><i class="fa fa-check"></i><b>6.1.1</b> Télécharger les données</a></li>
+<li class="chapter" data-level="6.1.2" data-path="lecon_carto.html"><a href="lecon_carto.html#%C3%A9l%C3%A9ments-de-base-en-cartographie"><i class="fa fa-check"></i><b>6.1.2</b> Éléments de base en cartographie</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#principes-fondamentaux"><i class="fa fa-check"></i>Principes fondamentaux</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#informations-indispensables-et-optionnelles"><i class="fa fa-check"></i>Informations indispensables et optionnelles</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#le-texte"><i class="fa fa-check"></i>Le texte</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#les-types-de-carte"><i class="fa fa-check"></i>Les types de carte</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#la-symbologie"><i class="fa fa-check"></i>La symbologie</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#les-couleurs"><i class="fa fa-check"></i>Les couleurs</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#les-palettes-de-couleurs"><i class="fa fa-check"></i>Les palettes de couleurs</a></li>
+</ul></li>
+<li class="chapter" data-level="6.1.3" data-path="lecon_carto.html"><a href="lecon_carto.html#basetmap"><i class="fa fa-check"></i><b>6.1.3</b> Cartes statiques avec tmap</a></li>
+<li class="chapter" data-level="6.1.4" data-path="lecon_carto.html"><a href="lecon_carto.html#les-polygones"><i class="fa fa-check"></i><b>6.1.4</b> Les polygones</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#polygones"><i class="fa fa-check"></i>Polygones</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#objet-tmap"><i class="fa fa-check"></i>Objet tmap</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#attributs-des-polygones"><i class="fa fa-check"></i>Attributs des polygones</a></li>
+</ul></li>
+<li class="chapter" data-level="6.1.5" data-path="lecon_carto.html"><a href="lecon_carto.html#sp%C3%A9cificit%C3%A9s-cartographiques"><i class="fa fa-check"></i><b>6.1.5</b> Spécificités cartographiques</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#titre"><i class="fa fa-check"></i>Titre</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#barre-d%C3%A9chelle-et-rose-des-vents"><i class="fa fa-check"></i>Barre d’échelle et rose des vents</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#grille-et-graticules"><i class="fa fa-check"></i>Grille et graticules</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#attribuer-les-cr%C3%A9dits-ou-la-source-des-donn%C3%A9es"><i class="fa fa-check"></i>Attribuer les crédits ou la source des données</a></li>
+</ul></li>
+<li class="chapter" data-level="6.1.6" data-path="lecon_carto.html"><a href="lecon_carto.html#mise-en-page"><i class="fa fa-check"></i><b>6.1.6</b> Mise en page</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#cadre-et-couleur-du-fond"><i class="fa fa-check"></i>Cadre et couleur du fond</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#l%C3%A9gende"><i class="fa fa-check"></i>Légende</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#ajustement-des-couleurs"><i class="fa fa-check"></i>Ajustement des couleurs</a></li>
+<li class="chapter" data-level="" data-path="lecon_carto.html"><a href="lecon_carto.html#styles-pr%C3%A9d%C3%A9finis"><i class="fa fa-check"></i>Styles prédéfinis</a></li>
+</ul></li>
+<li class="chapter" data-level="6.1.7" data-path="lecon_carto.html"><a href="lecon_carto.html#%C3%A9criture-sur-une-carte"><i class="fa fa-check"></i><b>6.1.7</b> Écriture sur une carte</a></li>
+<li class="chapter" data-level="6.1.8" data-path="lecon_carto.html"><a href="lecon_carto.html#les-lignes"><i class="fa fa-check"></i><b>6.1.8</b> Les lignes</a></li>
+<li class="chapter" data-level="6.1.9" data-path="lecon_carto.html"><a href="lecon_carto.html#les-points"><i class="fa fa-check"></i><b>6.1.9</b> Les points</a></li>
+<li class="chapter" data-level="6.1.10" data-path="lecon_carto.html"><a href="lecon_carto.html#donn%C3%A9es-matricielles"><i class="fa fa-check"></i><b>6.1.10</b> Données matricielles</a></li>
+<li class="chapter" data-level="6.1.11" data-path="lecon_carto.html"><a href="lecon_carto.html#carte-avec-symboles-proportionnels"><i class="fa fa-check"></i><b>6.1.11</b> Carte avec symboles proportionnels</a></li>
+<li class="chapter" data-level="6.1.12" data-path="lecon_carto.html"><a href="lecon_carto.html#cartes-choropl%C3%A8thes"><i class="fa fa-check"></i><b>6.1.12</b> Cartes Choroplèthes</a></li>
+<li class="chapter" data-level="6.1.13" data-path="lecon_carto.html"><a href="lecon_carto.html#cartes-%C3%A0-panneaux-multiples"><i class="fa fa-check"></i><b>6.1.13</b> Cartes à panneaux multiples</a></li>
+<li class="chapter" data-level="6.1.14" data-path="lecon_carto.html"><a href="lecon_carto.html#cartes-avec-encadr%C3%A9"><i class="fa fa-check"></i><b>6.1.14</b> Cartes avec encadré</a></li>
+<li class="chapter" data-level="6.1.15" data-path="lecon_carto.html"><a href="lecon_carto.html#carto_interactive"><i class="fa fa-check"></i><b>6.1.15</b> Cartes interactives</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="ex_carto.html"><a href="ex_carto.html"><i class="fa fa-check"></i><b>6.2</b> Exercices</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_carto.html"><a href="ex_carto.html#question-1-4"><i class="fa fa-check"></i>Question 1</a></li>
+<li class="chapter" data-level="" data-path="ex_carto.html"><a href="ex_carto.html#question-2-4"><i class="fa fa-check"></i>Question 2</a></li>
+<li class="chapter" data-level="" data-path="ex_carto.html"><a href="ex_carto.html#question-3-3"><i class="fa fa-check"></i>Question 3</a></li>
+<li class="chapter" data-level="" data-path="ex_carto.html"><a href="ex_carto.html#question-4-1"><i class="fa fa-check"></i>Question 4</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="manip_vec.html"><a href="manip_vec.html"><i class="fa fa-check"></i><b>7</b> Manipulation de données vectorielles</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="lecon_manip_vec.html"><a href="lecon_manip_vec.html"><i class="fa fa-check"></i><b>7.1</b> Leçon</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="lecon_manip_vec.html"><a href="lecon_manip_vec.html#data_mod7"><i class="fa fa-check"></i><b>7.1.1</b> Télécharger les données</a></li>
+<li class="chapter" data-level="7.1.2" data-path="lecon_manip_vec.html"><a href="lecon_manip_vec.html#op%C3%A9rations-de-base"><i class="fa fa-check"></i><b>7.1.2</b> Opérations de base</a>
+<ul>
+<li class="chapter" data-level="7.1.2.1" data-path="lecon_manip_vec.html"><a href="lecon_manip_vec.html#importer-et-visualiser-les-donn%C3%A9es"><i class="fa fa-check"></i><b>7.1.2.1</b> Importer et visualiser les données</a></li>
+<li class="chapter" data-level="7.1.2.2" data-path="lecon_manip_vec.html"><a href="lecon_manip_vec.html#op%C3%A9rations-sur-les-attributs-des-donn%C3%A9es-vectorielles"><i class="fa fa-check"></i><b>7.1.2.2</b> Opérations sur les attributs des données vectorielles</a></li>
+<li class="chapter" data-level="7.1.2.3" data-path="lecon_manip_vec.html"><a href="lecon_manip_vec.html#op%C3%A9rations-spatiales-sur-les-donn%C3%A9es-vectorielles"><i class="fa fa-check"></i><b>7.1.2.3</b> Opérations spatiales sur les données vectorielles</a></li>
+</ul></li>
+<li class="chapter" data-level="7.1.3" data-path="lecon_manip_vec.html"><a href="lecon_manip_vec.html#prob_mod7"><i class="fa fa-check"></i><b>7.1.3</b> Problématique à résoudre</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ex_map_vec.html"><a href="ex_map_vec.html"><i class="fa fa-check"></i><b>7.2</b> Exercices</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_map_vec.html"><a href="ex_map_vec.html#question-1-5"><i class="fa fa-check"></i>Question 1</a></li>
+<li class="chapter" data-level="" data-path="ex_map_vec.html"><a href="ex_map_vec.html#question-2-5"><i class="fa fa-check"></i>Question 2</a></li>
+<li class="chapter" data-level="" data-path="ex_map_vec.html"><a href="ex_map_vec.html#question-3-4"><i class="fa fa-check"></i>Question 3</a></li>
+<li class="chapter" data-level="" data-path="ex_map_vec.html"><a href="ex_map_vec.html#question-4-2"><i class="fa fa-check"></i>Question 4</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="manip_mat.html"><a href="manip_mat.html"><i class="fa fa-check"></i><b>8</b> Manipulation de données matricielles</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="lecon_mat_mani.html"><a href="lecon_mat_mani.html"><i class="fa fa-check"></i><b>8.1</b> Leçon</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="lecon_mat_mani.html"><a href="lecon_mat_mani.html#data_mod8"><i class="fa fa-check"></i><b>8.1.1</b> Télécharger les données</a></li>
+<li class="chapter" data-level="8.1.2" data-path="lecon_mat_mani.html"><a href="lecon_mat_mani.html#op%C3%A9ration-de-bases"><i class="fa fa-check"></i><b>8.1.2</b> Opération de bases</a>
+<ul>
+<li class="chapter" data-level="8.1.2.1" data-path="lecon_mat_mani.html"><a href="lecon_mat_mani.html#importer-et-visualiser-les-donn%C3%A9es-1"><i class="fa fa-check"></i><b>8.1.2.1</b> Importer et visualiser les données</a></li>
+<li class="chapter" data-level="8.1.2.2" data-path="lecon_mat_mani.html"><a href="lecon_mat_mani.html#filtrer-les-cellules-dun-raster"><i class="fa fa-check"></i><b>8.1.2.2</b> Filtrer les cellules d’un <em>raster</em></a></li>
+<li class="chapter" data-level="8.1.2.3" data-path="lecon_mat_mani.html"><a href="lecon_mat_mani.html#combiner-des-rasters"><i class="fa fa-check"></i><b>8.1.2.3</b> Combiner des <em>rasters</em></a></li>
+</ul></li>
+<li class="chapter" data-level="8.1.3" data-path="lecon_mat_mani.html"><a href="lecon_mat_mani.html#prob_mod8"><i class="fa fa-check"></i><b>8.1.3</b> Problématique à résoudre</a>
+<ul>
+<li class="chapter" data-level="" data-path="lecon_mat_mani.html"><a href="lecon_mat_mani.html#r%C3%A9solution-de-la-question-1"><i class="fa fa-check"></i>Résolution de la question 1</a></li>
+<li class="chapter" data-level="" data-path="lecon_mat_mani.html"><a href="lecon_mat_mani.html#r%C3%A9solution-de-la-question-2"><i class="fa fa-check"></i>Résolution de la question 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="ex_mat_manip.html"><a href="ex_mat_manip.html"><i class="fa fa-check"></i><b>8.2</b> Exercices</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_mat_manip.html"><a href="ex_mat_manip.html#question-1-6"><i class="fa fa-check"></i>Question 1</a></li>
+<li class="chapter" data-level="" data-path="ex_mat_manip.html"><a href="ex_mat_manip.html#question-2-6"><i class="fa fa-check"></i>Question 2</a></li>
+<li class="chapter" data-level="" data-path="ex_mat_manip.html"><a href="ex_mat_manip.html#question-3-5"><i class="fa fa-check"></i>Question 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="spatiotemp.html"><a href="spatiotemp.html"><i class="fa fa-check"></i><b>9</b> Données spatiotemporelles</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html"><i class="fa fa-check"></i><b>9.1</b> Leçon</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#data_mod9"><i class="fa fa-check"></i><b>9.1.1</b> Télécharger les données</a></li>
+<li class="chapter" data-level="9.1.2" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#donn%C3%A9es-spatiotemporelles-vectorielles"><i class="fa fa-check"></i><b>9.1.2</b> Données spatiotemporelles vectorielles</a>
+<ul>
+<li class="chapter" data-level="9.1.2.1" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#importer-les-donn%C3%A9es-1"><i class="fa fa-check"></i><b>9.1.2.1</b> Importer les données</a></li>
+<li class="chapter" data-level="9.1.2.2" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#vitesse-moyenne-des-trajets"><i class="fa fa-check"></i><b>9.1.2.2</b> Vitesse moyenne des trajets</a></li>
+<li class="chapter" data-level="9.1.2.3" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#p%C3%A9riode-de-lann%C3%A9e-pr%C3%A9f%C3%A9r%C3%A9e"><i class="fa fa-check"></i><b>9.1.2.3</b> Période de l’année préférée</a></li>
+<li class="chapter" data-level="9.1.2.4" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#animation-du-trajet-le-plus-long"><i class="fa fa-check"></i><b>9.1.2.4</b> Animation du trajet le plus long</a></li>
+</ul></li>
+<li class="chapter" data-level="9.1.3" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#donn%C3%A9es-spatiotemporelles-matricielles"><i class="fa fa-check"></i><b>9.1.3</b> Données spatiotemporelles matricielles</a>
+<ul>
+<li class="chapter" data-level="9.1.3.1" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#importer-les-donn%C3%A9es-2"><i class="fa fa-check"></i><b>9.1.3.1</b> Importer les données</a></li>
+<li class="chapter" data-level="9.1.3.2" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#les-objets-spatraster"><i class="fa fa-check"></i><b>9.1.3.2</b> Les objets SpatRaster</a></li>
+<li class="chapter" data-level="9.1.3.3" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#mois-de-plus-faible-pluviom%C3%A9trie"><i class="fa fa-check"></i><b>9.1.3.3</b> Mois de plus faible pluviométrie</a></li>
+<li class="chapter" data-level="9.1.3.4" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#points-les-plus-chauds"><i class="fa fa-check"></i><b>9.1.3.4</b> Points les plus chauds</a></li>
+<li class="chapter" data-level="9.1.3.5" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#profils-de-temperatures-et-de-precipitations"><i class="fa fa-check"></i><b>9.1.3.5</b> Profils de temperatures et de precipitations</a></li>
+<li class="chapter" data-level="9.1.3.6" data-path="lecon_spatiotemp.html"><a href="lecon_spatiotemp.html#animations"><i class="fa fa-check"></i><b>9.1.3.6</b> Animations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="ex_spatiotemp.html"><a href="ex_spatiotemp.html"><i class="fa fa-check"></i><b>9.2</b> Exercice</a>
+<ul>
+<li class="chapter" data-level="" data-path="ex_spatiotemp.html"><a href="ex_spatiotemp.html#question-1-7"><i class="fa fa-check"></i>Question 1</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SCI 1031 Visualisation et analyse de données spatiales sous R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="carto" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Module 6</span> Cartographie<a href="carto.html#carto" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Ce module porte sur la cartographie et il comporte deux objectifs principaux. Le premier objectif est d’apprendre les principes fondamentaux de la cartographie. Le deuxième objectif est d’apprendre les fonctionnalités de la bibliothèque R <code>tmap</code> pour créer divers types de carte avec des données vectorielles et matricielles.</p>
+<p><br></p>
+<div id="à-la-fin-de-ce-module-vous-saurez-5" class="section level6 unnumbered hasAnchor">
+<h6>À la fin de ce module vous saurez:<a href="carto.html#%C3%A0-la-fin-de-ce-module-vous-saurez-5" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<hr />
+<ul>
+<li>Décrire les principes fondamentaux à respecter lors de la création d’une carte.</li>
+<li>Identifier les éléments cartographiques indispensables et optionnels.</li>
+<li>Décrire les types de cartes générale et thématique.</li>
+<li>Définir la symbologie utilisée en cartographie.</li>
+<li>Comprendre le fonctionnement de base de la bibliothèque <code>tmap</code>.</li>
+<li>Utiliser les fonctions de <code>tmap</code> pour ajouter des éléments cartographiques et ajuster la mise en page d’une carte.</li>
+<li>Utiliser les fonctions de <code>tmap</code> pour cartographier des données vectorielles de type points, lignes et polygones.</li>
+<li>Utiliser les fonctions de <code>tmap</code> pour cartographier des données matricielles.</li>
+<li>Utiliser les fonctions de <code>tmap</code> pour créer des cartes avec symboles proportionnels et choroplèthes.</li>
+<li>Utiliser les fonctions de <code>tmap</code> pour créer des cartes à panneaux multiples</li>
+<li>Utiliser les fonctions de <code>tmap</code> pour créer des cartes interactives</li>
+</ul>
+<hr />
+</div>
+<div id="vous-utiliserez-les-bibliothèques-suivantes-2" class="section level6 unnumbered hasAnchor boite ico librairie gauche">
+<h6>Vous utiliserez les bibliothèques suivantes:<a href="carto.html#vous-utiliserez-les-biblioth%C3%A8ques-suivantes-2" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li><code>tmap</code></li>
+<li><code>cols4all</code></li>
+<li><code>viridis</code></li>
+<li><code>RColorBrewer</code></li>
+<li><code>grid</code></li>
+</ul>
+</div>
+<div id="vous-apprendrez-à-utiliser-les-fonctions-suivantes-2" class="section level6 unnumbered hasAnchor boite ico fonctions gauche">
+<h6>Vous apprendrez à utiliser les fonctions suivantes:<a href="carto.html#vous-apprendrez-%C3%A0-utiliser-les-fonctions-suivantes-2" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<ul>
+<li><code>tm_shape()</code></li>
+<li><code>tm_polygons()</code></li>
+<li><code>tm_fill()</code></li>
+<li><code>tm_borders()</code></li>
+<li><code>tm_scalebar()</code></li>
+<li><code>tm_compass()</code></li>
+<li><code>tm_grid()</code></li>
+<li><code>tm_graticules()</code></li>
+<li><code>tm_credits()</code></li>
+<li><code>tm_title()</code></li>
+<li><code>tmap_arrange()</code></li>
+<li><code>tm_layout()</code></li>
+<li><code>tm_style()</code></li>
+<li><code>tm_labels()</code></li>
+<li><code>tm_lines()</code></li>
+<li><code>tm_dots()</code></li>
+<li><code>tm_symbols()</code></li>
+<li><code>tm_bubbles()</code></li>
+<li><code>tm_raster()</code></li>
+<li><code>tm_legend()</code></li>
+<li><code>tm_components()</code></li>
+<li><code>tm_facets()</code></li>
+<li><code>tmap_mode()</code></li>
+<li><code>ttm()</code></li>
+<li><code>c4a_palettes()</code></li>
+<li><code>viewport()</code></li>
+<li><code>print()</code></li>
+</ul>
+</div>
+<div id="vous-utiliserez-les-données-suivantes-2" class="section level6 unnumbered hasAnchor boite ico donnees gauche">
+<h6>Vous utiliserez les données suivantes:<a href="carto.html#vous-utiliserez-les-donn%C3%A9es-suivantes-2" class="anchor-section" aria-label="Anchor link to header"></a></h6>
+<p>Dans la section <a href="lecon_carto.html#lecon_carto">leçon</a>, vous utiliserez quatre ensembles de données différents. Trois ensembles sont formés de données vectorielles. Il s’agit de données sur les régions administratives du Québec et la taille de leur population (polygones), des routes du Québec (lignes) et des municipalités du Québec (points). L’ensemble de données matricielles correspond à des données d’élévation sur tout le territoire québécois.</p>
+<p>Dans la section <a href="ex_carto.html#ex_carto">exercice</a>, vous utiliserez des données disponibles dans la bibliothèque <code>tmap</code>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ex_mat.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lecon_carto.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": [
+    ["Cours_SpatialR.pdf", "pdf"]
+  ],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection",
+    "scroll_highlight": true,
+    "edit": "https://github.com/sci1031/sci1031/edit/master/%s"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

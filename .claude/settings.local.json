@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit *)",
+      "Bash(Rscript -e \"bookdown::preview_chapter\\('Module6/index.Rmd'\\)\")"
+    ]
+  }
+}
