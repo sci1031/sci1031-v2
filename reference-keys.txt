@@ -80,11 +80,11 @@ fig:include-figs-raster-centroids
 fig:unnamed-chunk-136
 fig:unnamed-chunk-137
 fig:unnamed-chunk-144
-fig:unnamed-chunk-146
 fig:unnamed-chunk-148
-fig:unnamed-chunk-149
-fig:unnamed-chunk-155
-tab:unnamed-chunk-156
+fig:unnamed-chunk-150
+fig:unnamed-chunk-151
+fig:unnamed-chunk-158
+tab:unnamed-chunk-159
 fig:viewRG
 fig:mauvaises-cartes
 fig:elements-indisp
@@ -113,8 +113,8 @@ fig:div
 fig:basepal
 fig:viridipal
 fig:brewerpal
-fig:unnamed-chunk-215
-fig:unnamed-chunk-252
+fig:unnamed-chunk-219
+fig:unnamed-chunk-256
 fig:buffer-lapoc
 fig:buffer-regions
 fig:centroid-regions
