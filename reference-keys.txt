@@ -17,7 +17,7 @@ fig:sigexempleg
 fig:datasciencecovid
 fig:datasciencecaribou
 fig:datascienceebird
-fig:datascienceloghub
+fig:datasciencebusiness
 fig:etendue
 fig:resolutiondef
 fig:rstudio
